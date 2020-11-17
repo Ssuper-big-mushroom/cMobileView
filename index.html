@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+  <title>小俞的二维码转化</title>
+  <style>
+    body {
+      min-width: 1200px;
+    }
+
+    .app {
+      width: 1200px;
+      margin: 0 auto;
+      padding-top: 40px;
+    }
+
+    .href-input {
+      width: 100%;
+      height: 100px;
+      display: flex;  
+      align-items: center;
+    }
+    
+    .href-input > span {
+      width: 150px;
+      text-align: center;
+      font-size: 20px;
+      color: #999;
+      font-weight: 500;
+    }
+
+    .href-input > input {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      outline: none;
+      padding: 0 40px;
+      border-radius: 10px;
+      border: 1px solid #999;
+      margin-left: 30px;
+      font-size: 20px;
+    }
+
+    button {
+      width:  300px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 20px;
+      color: #999;
+      border: 0;
+      border-radius: 10px;
+      outline: none;
+      margin: 0 auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #999;
+      color: #fff;
+    }
+
+    .box-ma {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+
+    .code-box {
+      width: 300px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .code-box > span {
+      padding-bottom: 20px;
+    }
+
+    .code-box > .img {
+      width: 100%;
+    }
+
+    .href-box{
+      margin-top: 40px;
+    }
+
+    .href {
+      padding-bottom: 20px;
+      display: flex;
+    }
+
+    .href > span:first-child{
+      width: 300px;
+      text-align: center;
+    }
+
+    .href > span:last-child{
+      width: 900px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="href-input">
+      <span>请输入网址:</span>
+      <input type="text" placeholder="请输入网址" id="href">
+    </div>
+    <div class="href-input">
+      <span>包名称:</span>
+      <input type="text" placeholder="请输入包名称" id="dev">
+    </div>
+    <div class="button-box">
+      <button onclick="getCode()">确 认</button>
+    </div>
+    <div class="href-box">
+      <div class="href">
+        <span>hap链接二维码:</span>
+        <span id="span1"></span>
+      </div>
+      <div class="href">
+        <span>华为生活服务二维码:</span>
+        <span id="span2"></span>
+      </div>
+      <div class="href">
+        <span>百度外部唤起二维码:</span>
+        <span id="span3"></span>
+      </div>
+    </div>
+    <div class="box-ma">
+      <div class="code-box">
+        <span>
+          hap链接二维码
+        </span>
+        <div id="img1" ref="img1" class="img">
+
+        </div>
+      </div>
+      <div class="code-box">
+        <span>华为生活服务二维码</span>
+        <div id="img2" ref="img2" class="img">
+
+        </div>
+      </div>
+      <div class="code-box">
+        <span>百度外部唤起二维码</span>
+        <div id="img3" ref="img3" class="img">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    function getCode() {
+      
+
+      let href = document.getElementById('href').value
+      let dev = document.getElementById('dev').value
+      if(href == '' || dev == '') {
+        alert('网址和包不可为空')
+        return false
+      }
+      document.getElementById('img1').innerHTML = ''
+      document.getElementById('img2').innerHTML = ''
+      document.getElementById('img3').innerHTML = ''
+      
+      document.getElementById('span1').innerText = `hap://app/com.tongcheng.quickapp/main?jumpType=single&
+      selectedTabIndex=0&jumpUrl=${encodeURIComponent(href)}`
+      let a = href.indexOf('?')
+      document.getElementById('span2').innerText = `hap://app/com.tongcheng.quickapp/main?jumpType=single&
+      selectedTabIndex=0&jumpUrl=${encodeURIComponent(href + (a > -1 ? '&' : '?' + 'ishwlife=1'))}`  
+      document.getElementById('span3').innerText = `baiduboxapp://swan/NzL5GjDVLXcZRCIwVEpG3xBX2P0n7eRl_${dev}/pages/common/webview/
+      webview?needLogin=1&needLoaction=1&url=${encodeURIComponent(href)}`
+
+      let span1 = document.getElementById('span1').innerText
+      let span2 = document.getElementById('span2').innerText 
+      let span3 = document.getElementById('span3').innerText
+
+      let img1 = document.getElementById('img1')
+      let img2 = document.getElementById('img2')
+      let img3 = document.getElementById('img3')
+
+      new QRCode(img1, {
+            text: span1,
+            width: 300,
+            height: 300,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: 3
+      })
+      new QRCode(img2, {
+            text: span2,
+            width: 300,
+            height: 300,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: 3
+      })
+      new QRCode(img3, {
+            text: span3,
+            width: 300,
+            height: 300,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: 3
+      })
+
+    }
+  </script>
+</body>
+</html>
